@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { usuarioModel } from 'src/app/models/usuario.model';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-registro',
@@ -11,16 +12,21 @@ export class RegistroComponent implements OnInit {
 
   usuario: usuarioModel;
 
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit() {
     this.usuario = new usuarioModel();
   }
 
   onSubmit(form:NgForm){
-    console.log(form);
-    if (!form.valid) { return; }
-    console.log(this.usuario);
+    if (form.invalid) { return; }
+
+    this.authService.nuevoUsuario(this.usuario)
+      .subscribe( result => {
+        console.log(result);
+      }, (err) => {
+        console.log(err.error.error.message);
+      });
   }
 
 }
