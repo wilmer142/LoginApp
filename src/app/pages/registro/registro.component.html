@@ -1,4 +1,4 @@
-<div class="limiter">
+<div class="limiter animated fadeInRight">
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="login100-form validate-form flex-sb flex-w">
@@ -22,7 +22,7 @@
                 </div>
 
                 <span class="text-danger animated fadeIn" *ngIf="f.submitted && !f.controls['password'].valid">Al menos 6 caracteres</span>
-                <div class="wrap-input100 m-b-16" data-validate="Password is required">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="password" name="password" placeholder="Password" [(ngModel)]="usuario.password" required minlength="6">
                     <span class="focus-input100"></span>
                 </div>
@@ -36,7 +36,7 @@
                     </div>
 
                     <div>
-                        <a routerLink="/registro" class="txt1">
+                        <a routerLink="/login" class="txt1">
                                 ¿Ya tienes cuenta? / Ingresar
                             </a>
                     </div>
