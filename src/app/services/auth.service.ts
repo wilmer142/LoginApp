@@ -11,7 +11,7 @@ export class AuthService {
   private url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
   private apikey = 'AIzaSyAftFAfL9T3UgzoyLO1hzuUhWtp7xf4Hbs';
 
-  userToken:string;
+  userToken:string = '';
 
   //Crear nuevo usuario
   //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
@@ -19,6 +19,7 @@ export class AuthService {
   //Login
   //https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
   constructor(private http:HttpClient) {
+    console.log("leer token");
     this.leerToken();
   }
 
@@ -40,7 +41,7 @@ export class AuthService {
   }
 
   logout(){
-
+    localStorage.removeItem('token');
   }
 
   nuevoUsuario(usuario:usuarioModel){
@@ -63,13 +64,23 @@ export class AuthService {
   private guardarToken(idToken:string){
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
+
+    let hoy = new Date();
+    hoy.setSeconds(3600);
+    localStorage.setItem('expiraEn', hoy.getTime().toString());
   }
 
   leerToken(){
-    return localStorage.getItem('token');
+    this.userToken = localStorage.getItem('token');
   }
 
   estaAutenticado(): boolean{
-    return this.userToken.length > 2;
+    const expira = Number(localStorage.getItem('expiraEn'));
+    const expiraDate = new Date();
+    expiraDate.setTime(expira);
+    console.log(expiraDate);
+    console.log(new Date());
+    console.log(expiraDate < new Date());
+    return this.userToken.length > 2 && expiraDate > new Date();
   }
 }
