@@ -68,4 +68,8 @@ export class AuthService {
   leerToken(){
     return localStorage.getItem('token');
   }
+
+  estaAutenticado(): boolean{
+    return this.userToken.length > 2;
+  }
 }
