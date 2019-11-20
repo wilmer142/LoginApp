@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { usuarioModel } from 'src/app/models/usuario.model';
+import { Router } from '@angular/router';
+
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,7 +16,8 @@ export class RegistroComponent implements OnInit {
 
   usuario: usuarioModel;
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,
+              private router:Router) { }
 
   ngOnInit() {
     this.usuario = new usuarioModel();
@@ -32,6 +36,7 @@ export class RegistroComponent implements OnInit {
     this.authService.nuevoUsuario(this.usuario)
       .subscribe( result => {
         Swal.close();
+        this.router.navigateByUrl('/home');
       }, (err) => {
         Swal.fire({
           allowOutsideClick: false,
